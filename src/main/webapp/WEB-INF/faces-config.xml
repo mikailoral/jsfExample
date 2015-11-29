@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config
+        xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+    http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+        version="2.0">
+
+    <!-- JSF and Spring are integrated -->
+    <!-- Enable Spring -->
+    <application>
+        <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+    </application>
+
+    <!-- navigation-rule for login.xhtml -->
+    <navigation-rule>
+        <from-view-id>/pages/unsecure/login.xhtml</from-view-id>
+        <!-- navigation-case for method login() -->
+        <navigation-case>
+            <from-action>#{loginMgmtBean.login}</from-action>
+            <from-outcome>correct</from-outcome>
+            <to-view-id>/pages/secure/list.xhtml</to-view-id>
+        </navigation-case>
+        <!-- navigation-case for method login() -->
+        <navigation-case>
+            <from-action>#{loginMgmtBean.login}</from-action>
+            <from-outcome>incorrect</from-outcome>
+            <to-view-id>/pages/unsecure/login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <!-- navigation-rule for list.xhtml -->
+    <navigation-rule>
+        <from-view-id>/pages/secure/list.xhtml</from-view-id>
+        <!-- navigation case for method addCustomer() -->
+        <navigation-case>
+            <from-action>#{customerMB.addCustomer}</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/pages/secure/list.xhtml</to-view-id>
+        </navigation-case>
+        <!-- navigation cases for method updateCustomer(customer) -->
+        <navigation-case>
+            <from-action>#{customerMB.updateCustomer(customer)}</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/pages/secure/list.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-action>#{customerMB.updateCustomer(customer)}</from-action>
+            <from-outcome>error</from-outcome>
+            <to-view-id>/pages/unsecure/error.xhtml</to-view-id>
+        </navigation-case>
+        <!-- navigation-cases for method deleteCustomer(customer) -->
+        <navigation-case>
+            <from-action>#{customerMB.deleteCustomer(customer)}</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/pages/secure/list.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-action>#{customerMB.deleteCustomer(customer)}</from-action>
+            <from-outcome>error</from-outcome>
+            <to-view-id>/pages/unsecure/error.xhtml</to-view-id>
+        </navigation-case>
+        <!-- navigation case for method logout() -->
+        <navigation-case>
+            <from-action>#{loginMgmtBean.logout}</from-action>
+            <from-outcome>loggedout</from-outcome>
+            <to-view-id>/pages/unsecure/login.xhtml</to-view-id>
+            <redirect></redirect>
+        </navigation-case>
+    </navigation-rule>
+
+
+
+</faces-config>
