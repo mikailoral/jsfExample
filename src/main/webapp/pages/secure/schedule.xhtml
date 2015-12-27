@@ -1,0 +1,134 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+<h:head>
+	<title>Welcome</title>
+</h:head>
+
+<h:body>
+
+	<!-- View element level Spring Security : only can view for who has the role 'ROLE_ADMIN' -->
+	<sec:authorize access="hasAnyRole('ROLE_USER')">
+
+		<h:form>
+			<p:growl id="messages" showDetail="true" sticky="true" />  
+
+			<h:panelGrid columnClasses="value">
+				<h3 style="margin-top: 0">Schedule</h3>
+				<p:schedule id="schedule" value="#{scheduleView.eventModel}" slotMinutes="60" allDaySlot="false"
+					widgetVar="myschedule" timeZone="GMT+2" locale="tr" draggable="false" resizable="false"
+					view="agendaWeek" rightHeaderTemplate="agendaWeek, agendaDay, basicWeek"  >
+					
+					<p:ajax event="dateSelect" listener="#{scheduleView.onDateSelect}"
+						update="messages" onstart="PF('statusDialog').show();" oncomplete="PF('myschedule').update();PF('statusDialog').hide();" />
+					<p:ajax event="eventSelect"
+						listener="#{scheduleView.onEventSelect}" update="messages"
+						onstart="PF('statusDialog').show();" oncomplete="PF('myschedule').update();PF('statusDialog').hide();" />
+				</p:schedule>
+			</h:panelGrid>
+
+
+			<p:dialog widgetVar="statusDialog" modal="true" draggable="false" header="Kaydediliyor"
+				resizable="false" showHeader="false">
+				<p:graphicImage value="ajaxloadingbar.gif" />
+			</p:dialog>
+
+			
+			
+		</h:form>
+
+		<script type="text/javascript">
+			PrimeFaces.locales['tr'] = {
+				closeText : 'kapat',
+				prevText : 'geri',
+				nextText : 'ileri',
+				currentText : 'bugün',
+				monthNames : [ 'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs',
+						'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim',
+						'Kasım', 'Aralık' ],
+				monthNamesShort : [ 'Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz',
+						'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara' ],
+				dayNames : [ 'Pazar', 'Pazartesi', 'Salı', 'Çarşamba',
+						'Perşembe', 'Cuma', 'Cumartesi' ],
+				dayNamesShort : [ 'Pz', 'Pt', 'Sa', 'Ça', 'Pe', 'Cu', 'Ct' ],
+				dayNamesMin : [ 'Pz', 'Pt', 'Sa', 'Ça', 'Pe', 'Cu', 'Ct' ],
+				weekHeader : 'Hf',
+				firstDay : 1,
+				isRTL : false,
+				showMonthAfterYear : false,
+				yearSuffix : '',
+				month : 'Ay',
+				week : 'Hafta',
+				day : 'Gün',
+				allDayText : 'Tüm Gün'
+			};
+		</script>
+
+		<style type="text/css">
+.value {
+	width: 1000px;
+}
+</style>
+
+	</sec:authorize>
+
+	<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+		<h:form >
+        <p:growl id="messages" showDetail="true"/>
+        <p:dataTable id="odemes" var="odeme" value="#{scheduleView.listOdeme}" style="width: 10%" editable="true">
+<!--             <p:ajax event="rowEdit" listener="#{odemeMB.onEdit}" update=":form1:messages"/> -->
+<!--             <p:ajax event="rowEditCancel" listener="#{odemeMB.onCancel}" update=":form1:messages"/> -->
+            <p:column headerText="User">
+                <h:outputText value="#{odeme.user}"/>
+            </p:column>
+            <p:column headerText="Name">
+                <h:outputText value="#{odeme.name}"/>
+            </p:column>
+            <p:column headerText="Surname">
+                <h:outputText value="#{odeme.surname}"/>
+            </p:column>
+            <p:column headerText="Email">
+                <h:outputText value="#{odeme.email}"/>
+            </p:column>
+            <p:column headerText="Phone">
+                <h:outputText value="#{odeme.phone}"/>
+            </p:column>
+            <p:column headerText="Method">
+                <h:outputText value="#{odeme.method}"/>
+            </p:column>
+            <p:column headerText="Total">
+                <h:outputText value="#{odeme.total}"/>
+            </p:column>
+            <p:column headerText="Lectures">
+                <h:outputText value="#{odeme.lectures}"/>
+            </p:column>
+            <p:column headerText="OrderId">
+                <h:outputText value="#{odeme.orderid}"/>
+            </p:column>
+            <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+                <p:column>
+                    <f:facet name="header">Onayla</f:facet>
+                    <h:commandLink value="Onayla" action="#{scheduleView.updateOdeme(odeme)}"/>
+                </p:column>
+<!--                 <p:column style="width:20%"> -->
+<!--                     <f:facet name="header">Update</f:facet> -->
+<!--                     <p:rowEditor/> -->
+<!--                 </p:column> -->
+            </sec:authorize>
+        </p:dataTable>
+        <br/>
+        <p:commandButton value="Logout" id="logout" action="#{loginBean.logout}"/>
+    </h:form>
+	
+	</sec:authorize>
+	
+
+
+	<br />
+
+</h:body>
+
+</html>

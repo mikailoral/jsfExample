@@ -13,11 +13,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import common.StaticConstant;
 import spring.dao.UserDAO;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import javax.faces.context.FacesContext;
 
     @Service
     @Transactional(readOnly=true)
@@ -29,7 +33,17 @@ import java.util.List;
         public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
 
             spring.model.User domainUser = userDAO.getUser(login);
+            
 
+            
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("userid", domainUser.getId());
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("roleid", domainUser.getRole().getId());
+
+            
+            
+            
+            System.out.println( "login user id  : " + domainUser.getId());
+            System.out.println( "login user role  : " + domainUser.getRole().getId());
             boolean enabled = true;
             boolean accountNonExpired = true;
             boolean credentialsNonExpired = true;
@@ -58,7 +72,12 @@ import java.util.List;
             if (role.intValue() == 1) {
                 roles.add("ROLE_MODERATOR");
                 roles.add("ROLE_ADMIN");
+//                roles.add("ROLE_USER");
             } else if (role.intValue() == 2) {
+                roles.add("ROLE_MODERATOR");
+                roles.add("ROLE_USER");
+            }else if (role.intValue() == 3) {
+                roles.add("ROLE_USER");
                 roles.add("ROLE_MODERATOR");
             }
             return roles;

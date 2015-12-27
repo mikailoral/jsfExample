@@ -4,24 +4,21 @@ package managedController;
  * Created by dozac on 15/04/2015.
  */
 
-import org.primefaces.event.RowEditEvent;
-import org.springframework.dao.DataAccessException;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import spring.model.Customer;
-import spring.service.CustomerService;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+
+import org.primefaces.event.RowEditEvent;
+import org.springframework.dao.DataAccessException;
+
+import spring.model.Customer;
+import spring.service.CustomerService;
 
 @ManagedBean(name="customerMB")
 @RequestScoped

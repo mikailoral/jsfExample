@@ -19,7 +19,7 @@
         <navigation-case>
             <from-action>#{loginMgmtBean.login}</from-action>
             <from-outcome>correct</from-outcome>
-            <to-view-id>/pages/secure/list.xhtml</to-view-id>
+            <to-view-id>/pages/secure/schedule.xhtml</to-view-id>
         </navigation-case>
         <!-- navigation-case for method login() -->
         <navigation-case>
