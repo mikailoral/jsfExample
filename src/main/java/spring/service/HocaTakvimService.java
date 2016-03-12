@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import spring.dao.HocaTakvimDAO;
 import spring.model.HocaTakvim;
-import spring.model.Odeme;
+import spring.model.OdemeBilgisi;
 
 /**
  * Created by dozac on 15/04/2015.
@@ -39,7 +39,7 @@ public class HocaTakvimService {
     }
     
     @Transactional(readOnly = false)
-	public void updateOdeme(Odeme odeme) {
+	public void updateOdeme(OdemeBilgisi odeme) {
     	getHocaTakvimDAO().updateOdeme(odeme);
 		
 	}
@@ -52,7 +52,7 @@ public class HocaTakvimService {
         return getHocaTakvimDAO().getHocaTakvims();
     }
 
-    public List<Odeme> getoOdemes(){
+    public List<OdemeBilgisi> getoOdemes(){
     	return getHocaTakvimDAO().getOdemes();
     }
 

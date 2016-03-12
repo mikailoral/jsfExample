@@ -20,7 +20,7 @@ import org.springframework.dao.DataAccessException;
 
 import spring.model.Customer;
 import spring.model.HocaTakvim;
-import spring.model.Odeme;
+import spring.model.OdemeBilgisi;
 import spring.service.HocaTakvimService;
 import common.MyEvent;
 import common.StaticConstant;
@@ -34,8 +34,8 @@ public class ScheduleView implements Serializable {
 	private ScheduleModel lazyEventModel;
 
 	private MyEvent event = new MyEvent();
-	private Odeme odeme = new Odeme();
-	List<Odeme> listOdeme ;
+	private OdemeBilgisi odeme = new OdemeBilgisi();
+	List<OdemeBilgisi> listOdeme ;
 	private static final String SUCCESS = "success";
 	private static final String ERROR   = "error";
 	
@@ -65,7 +65,7 @@ public class ScheduleView implements Serializable {
 		}
 	}
 	
-	public String updateOdeme(Odeme odeme) {
+	public String updateOdeme(OdemeBilgisi odeme) {
         try {
         	hocaTakvimService.updateOdeme(odeme);
 //            getCustomerService().updateCustomer(customer);
@@ -216,19 +216,19 @@ public class ScheduleView implements Serializable {
 		this.event = event;
 	}
 
-	public Odeme getOdeme() {
+	public OdemeBilgisi getOdeme() {
 		return odeme;
 	}
 
-	public void setOdeme(Odeme odeme) {
+	public void setOdeme(OdemeBilgisi odeme) {
 		this.odeme = odeme;
 	}
 
-	public List<Odeme> getListOdeme() {
+	public List<OdemeBilgisi> getListOdeme() {
 		return listOdeme;
 	}
 
-	public void setListOdeme(List<Odeme> listOdeme) {
+	public void setListOdeme(List<OdemeBilgisi> listOdeme) {
 		this.listOdeme = listOdeme;
 	}
 	

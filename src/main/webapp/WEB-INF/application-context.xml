@@ -18,10 +18,10 @@
 <!-- Data Source Declaration -->
 <bean id="DataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
     <property name="driverClass" value="com.mysql.jdbc.Driver" />
-    <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/jsf" />
+    <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/batibaha_canlii" />
     <property name="user" value="mikail" />
     <property name="password" value="123456" />
-    <property name="maxPoolSize" value="2" />
+    <property name="maxPoolSize" value="5" />
     <property name="maxStatements" value="0" />
     <property name="minPoolSize" value="1" />
 </bean>

@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import spring.model.HocaTakvim;
 import spring.model.Odeme;
+import spring.model.OdemeBilgisi;
 
 /**
  * Created by dozac on 15/04/2015.
@@ -71,8 +72,39 @@ public class HocaTakvimDAO {
         getSessionFactory().getCurrentSession().update(hocaTakvim);
     }
     
-	public void updateOdeme(Odeme odeme) {
+	public void updateOdeme(OdemeBilgisi odemeBilgisi) {
 		System.out.println("odeme guncellendi");
+		String sql = "Select id, kredi from batibaha_canlii.odeme o where user = " + Integer.parseInt( odemeBilgisi.getUser()) + " and kredi > 0";
+		List list = getSessionFactory().getCurrentSession().createSQLQuery(sql)
+				.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP).list();
+		
+		if(list.size()> 0){
+			int id = 0 ;
+			int kredi = 0;
+			for (Object obje : list) {
+				Map row = (Map) obje;
+				id = (Integer) row.get("id");
+				kredi = (Integer) row.get("kredi");
+			}
+			Odeme odeme = new Odeme();
+			odeme.setId(id);
+			odeme.setUser(Integer.parseInt(odemeBilgisi.getUser()));
+			odeme.setKredi(kredi + Integer.parseInt(odemeBilgisi.getLectures()));
+			getSessionFactory().getCurrentSession().update(odeme);
+			
+//			getSessionFactory().getCurrentSession().createQuery("UPDATE batibaha_canlii.odeme SET kredi="+ 
+//			(kredi + Integer.parseInt(odemeBilgisi.getLectures()) ) +" WHERE id=" + id ).executeUpdate();
+		}else{
+			Odeme odeme = new Odeme();
+			odeme.setUser(Integer.parseInt(odemeBilgisi.getUser()));
+			odeme.setKredi(Integer.parseInt(odemeBilgisi.getLectures()));
+			getSessionFactory().getCurrentSession().save(odeme);
+//			getSessionFactory().getCurrentSession().createQuery("INSERT INTO batibaha_canlii.odeme ( user, kredi) VALUES ("+ 
+//					Integer.parseInt(odemeBilgisi.getUser())+", " + Integer.parseInt(odemeBilgisi.getLectures()) + ")").executeUpdate();
+		}
+		String updateSql = "UPDATE batibaha_canlii.wp_woocommerce_order_items SET durum="+ 
+		Integer.parseInt(odemeBilgisi.getUser()) +" WHERE order_id=" + odemeBilgisi.getOrderid();
+		getSessionFactory().getCurrentSession().createQuery( updateSql).executeUpdate();
 		
 	}
 
@@ -81,11 +113,11 @@ public class HocaTakvimDAO {
         return (HocaTakvim)list.get(0);
     }
     
-	public List<Odeme> getOdemes() {
+	public List<OdemeBilgisi> getOdemes() {
 
-		List<Odeme> list = null ;
-		List<Odeme> listDonen = new ArrayList<Odeme>() ;
-		Odeme odeme ;
+		List<OdemeBilgisi> list = null ;
+		List<OdemeBilgisi> listDonen = new ArrayList<OdemeBilgisi>() ;
+		OdemeBilgisi odeme ;
 		
 		String sql = "SELECT oi.order_id as orderid, oim.meta_value as metavalue, "
 				+ " (SELECT a. meta_value FROM batibaha_canlii.wp_postmeta a WHERE a.post_id = oi.order_id AND a.meta_key =  '_customer_user') as user , "
@@ -108,7 +140,7 @@ public class HocaTakvimDAO {
 			for (Object obje : list) {
 				
 				Map row = (Map)obje;
-				odeme = new Odeme();
+				odeme = new OdemeBilgisi();
 				odeme.setOrderid((BigInteger) row.get("orderid"));
 				odeme.setMetavalue((String) row.get("metavalue"));
 				odeme.setUser((String) row.get("user"));

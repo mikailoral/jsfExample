@@ -26,7 +26,8 @@
         <sec:intercept-url pattern="/javax.faces.resource/**" access="permitAll"/>
 
         <!-- Define login page for Spring Security -->
-        <sec:form-login login-page="/pages/unsecure/login.xhtml"/>
+         <sec:form-login login-page="/pages/unsecure/login.html" default-target-url="/pages/secure/schedule.xhtml"
+        authentication-failure-url="/pages/unsecure/login.html"/>
 
         <!-- Define logout properties for Spring Security -->
         <sec:logout invalidate-session="true" delete-cookies="true" logout-success-url="/"></sec:logout>
@@ -36,8 +37,15 @@
     <sec:authentication-manager alias="authenticationManager">
         <sec:authentication-provider user-service-ref="customUserDetailsService">
             <sec:password-encoder hash="plaintext"></sec:password-encoder>
+<!--             <sec:password-encoder hash="plaintext"></sec:password-encoder> -->
         </sec:authentication-provider>
     </sec:authentication-manager>
+    
+<!--     <authentication-manager> -->
+<!-- 		<authentication-provider user-service-ref="userLoginService" > -->
+<!-- 			<password-encoder hash="md5"/>    -->
+<!-- 		</authentication-provider>  -->
+<!-- 	</authentication-manager> -->
 
     <!-- Inject authentication Manager to our LoginBean -->
     <beans:bean id="loginBean" name="loginBean" class="managedController.LoginBean" scope="prototype">

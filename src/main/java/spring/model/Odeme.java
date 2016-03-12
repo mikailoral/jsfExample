@@ -1,88 +1,66 @@
 package spring.model;
 
-import java.math.BigInteger;
+import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+/**
+ * Created by dozac on 15/04/2015.
+ */
+@Entity
+@Table(name="odeme")
 public class Odeme {
-	
-	private String user;
-	private String name;
-	private String surname;
-	private String email;
-	private String phone;
-	private String method;
-	private String total;
-	private String price;
-	private String lectures;
-	private BigInteger orderid;
-	private String metavalue;
 
-	public Odeme() {
-	}
+	@Id
+	@GeneratedValue
+    private int id;
+    private int user;
+    private int kredi;
+
+    public Odeme(){
+    	
+    }
+
 	
-	public String getUser() {
-		return user;
-	}
-	public void setUser(String user) {
-		this.user = user;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getSurname() {
-		return surname;
-	}
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getPhone() {
-		return phone;
-	}
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-	public String getMethod() {
-		return method;
-	}
-	public void setMethod(String method) {
-		this.method = method;
-	}
-	public String getTotal() {
-		return total;
-	}
-	public void setTotal(String total) {
-		this.total = total;
-	}
-	public String getPrice() {
-		return price;
-	}
-	public void setPrice(String price) {
-		this.price = price;
-	}
-	public String getLectures() {
-		return lectures;
-	}
-	public void setLectures(String lectures) {
-		this.lectures = lectures;
-	}
-	public BigInteger getOrderid() {
-		return orderid;
-	}
-	public void setOrderid(BigInteger orderid) {
-		this.orderid = orderid;
-	}
-	public String getMetavalue() {
-		return metavalue;
-	}
-	public void setMetavalue(String metavalue) {
-		this.metavalue = metavalue;
-	}	
+    @Column(name="ID", unique = true, nullable = false)
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Column(name="user", nullable = false)
+    public int getUser() {
+        return user;
+    }
+
+    public void setUser(int user) {
+        this.user = user;
+    }
+
+    @Column(name="kredi", nullable = true)
+    public int getKredi() {
+        return kredi;
+    }
+
+    public void setKredi(int kredi) {
+        this.kredi = kredi;
+    }
+
+
+	@Override
+    public String toString() {
+        StringBuffer strBuff = new StringBuffer();
+        strBuff.append("id : ").append(getId());
+        strBuff.append(", user : ").append(getUser());
+        strBuff.append(", kredi : ").append(getKredi());
+        return strBuff.toString();
+    }
+
 }
